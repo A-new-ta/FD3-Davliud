@@ -5,3 +5,4 @@
 При разработке компонента максимально использовать forEach и другие методы обработки массивов.
 
 https://a-new-ta.github.io/FD3-Davliud/ishop/index.html
+

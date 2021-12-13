@@ -1,6 +1,6 @@
-let InternetShop = React.createClass({
+let IShop = React.createClass({
 
-  displayName: 'InternetShop',
+  displayName: 'IShop',
   
   propTypes: {
       items:React.PropTypes.arrayOf(
@@ -40,7 +40,7 @@ let InternetShop = React.createClass({
       allItems.push(itemString);
     });
 
-    return React.DOM.table({ className: 'ishopTable' },
+    return React.DOM.table({ className: 'Ishop' },
             React.DOM.caption({ className: 'caption' }, this.props.shop),
             React.DOM.tbody({ className: 'tablebody' }, allItems)
     )
