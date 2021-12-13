@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ishop</title>
+</head>
+<body>
+
+    
+  <div id="container"></div> 
+      
+  <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+      
+  <script src="Ishop.js"></script>
+  <script src="Items.js"></script>
+  <link rel="stylesheet" type="text/css" href="ishop.css" />
+
+  <script>
+
+    let shopName = 'Магазин спортивной обуви';
+
+    let itemsArr=[ 
+      
+      {id:001, name:'Кроссовки Saucony Endorphin Pro 2 Reverie', price:594, urlItem:'https://metarun.by/assets/images/products/45067/29902390903k.png', count:5},
+      {id:002, name:'Кроссовки Hoka One One Carbon X2', price:444, urlItem:'https://metarun.by/assets/images/products/44911/1113527wbor.png', count:3}, 
+      {id:003, name:'Кроссовки Asics Metaracer white', price:414, urlItem:'https://metarun.by/assets/images/products/44830/asics-metaracer-1011a676-100-(1).jpg', count:5}, 
+      {id:004, name:'Кроссовки Mizuno Wave Shadow 4', price:324, urlItem:'https://metarun.by/assets/images/products/44567/mizuno-wave-shadow-4-j1gc2030-21-(3).jpg', count:1}, 
+      {id:005, name:'Кроссовки Hoka One One Rocket X', price:314, urlItem:'https://metarun.by/assets/images/products/44572/1113532ftbc.jpg', count:2}, 
+      
+    ];
+
+    ReactDOM.render(
+      React.createElement(IShop, {shop:shopName, items:itemsArr}), 
+      document.getElementById('container') 
+    );
+
+  </script>
+
+</body>
+</html>

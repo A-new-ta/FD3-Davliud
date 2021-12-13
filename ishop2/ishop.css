@@ -1,0 +1,23 @@
+/* .Ishop {
+  margin: 0 auto;
+  border-spacing: 2px;
+  border: 1px solid black;
+}
+.Ishop .item_image {
+  width: 150px;
+}
+
+.Ishop th, .Ishop td {
+  text-align: center;
+  background: rgb(235, 234, 232);
+  padding: 5px;
+}
+.Ishop .caption {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+} */
+
+.ItemImage img {
+  width: 150px;
+}
