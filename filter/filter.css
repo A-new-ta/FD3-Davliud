@@ -1,0 +1,11 @@
+select {
+  display: block;
+    width:250px;
+    height:120px;
+    margin-top: 20px;
+    
+}
+
+.reset {
+  margin-left: 20px;
+}

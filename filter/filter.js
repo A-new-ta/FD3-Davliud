@@ -8,7 +8,6 @@ let Filter = React.createClass({
 
   getInitialState: function () {
     return {
-      // listH: this.props.list,
       filtered: '',
       isSort: false,
       list: this.props.list,
@@ -16,14 +15,14 @@ let Filter = React.createClass({
   },
 
   isChecked: function (eo) {
-    this.setState({ isSort: eo.target.checked }, this.stringHandler);
+    this.setState({ isSort: eo.target.checked }, this.processList);
   },
 
   searchText: function (eo) {
-    this.setState({ filtered: eo.target.value }, this.stringHandler)
+    this.setState({ filtered: eo.target.value }, this.processList)
   },
 
-  stringHandler: function () {
+  processList: function () {
     let result = this.props.list;
     if (this.state.filtered) {
       result = result.filter(v => v.toLowerCase().indexOf(this.state.filtered.toLowerCase()) !== -1)
@@ -46,7 +45,7 @@ let Filter = React.createClass({
 
     let resCode = [];
 
-    this.state.list.forEach(function (i) {
+    this.state.list.forEach( i => {
       let item = React.DOM.option({ key: i }, i)
       resCode.push(item)
     });
@@ -57,7 +56,7 @@ let Filter = React.createClass({
       React.DOM.input({ type: 'button', value: 'сброс', className: 'reset', onClick: this.resetList }),
     
       React.DOM.form(null,
-        React.DOM.select({ className: 'select', size: 4, }, resCode)))
+        React.DOM.select({ className: 'select', size: 2, }, resCode)))
   },
 });
 
