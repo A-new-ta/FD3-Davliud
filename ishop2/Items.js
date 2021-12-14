@@ -15,7 +15,6 @@ let Items = React.createClass({
         selectedItems: React.PropTypes.bool.isRequired, 
         cbSelect: React.PropTypes.func.isRequired, 
         cbDelete: React.PropTypes.func.isRequired, 
-            
     },
 
     selectedRow: function () {
@@ -23,7 +22,7 @@ let Items = React.createClass({
     },
 
     deleteRow: function (eo) {
-        this.props.cbDelete(this.props.id);
+        if(confirm('Хотите удалить товар?')) this.props.cbDelete(this.props.id);
         eo.stopPropagation();
     },
 

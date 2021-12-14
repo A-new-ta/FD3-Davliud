@@ -24,9 +24,7 @@ let IShop = React.createClass({
   },
 
   deleteItem: function (id) {
-    if (confirm('Удалить товар?')) {
-      this.setState({items: this.state.items.filter(v => v.id != id)})
-    }
+      this.setState({ items: this.state.items.filter(v => v.id != id) })
   },
 
   selectItem: function (id) {
@@ -37,29 +35,29 @@ let IShop = React.createClass({
     let itemsHead = React.DOM.tr({},
       this.state.heads.map((v, i) => React.DOM.th({ key: i, className: 'ShopHead' }, v)));
 
-    let itemTable = this.state.items.map(i =>
+    let itemTable = this.state.items.map(item =>
       React.createElement(Items, {
-        key: i.id,
-        id: i.id,
-        name: i.name,
-        price: i.price,
-        urlItem: i.urlItem,
-        count: i.count,
-        selectedItems: i.id == this.state.selectedItemId,
+        key: item.id,
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        urlItem: item.urlItem,
+        count: item.count,
+        selectedItems: item.id == this.state.selectedItemId,
         cbSelect: this.selectItem,
         cbDelete: this.deleteItem
       })
     );
     
     
-    return React.DOM.div({className: "IShopcont"},
+    return React.DOM.div({},
     React.DOM.div({className: "ShopName"}, this.props.name),
     React.DOM.table({className: "Ishop"},
         React.DOM.thead({}, itemsHead),
         React.DOM.tbody({}, itemTable)
     )
-);
-},
+  );
+  },
 });
 
 
