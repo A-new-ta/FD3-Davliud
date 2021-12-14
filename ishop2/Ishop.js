@@ -2,17 +2,24 @@ let IShop = React.createClass({
 
   displayName: 'IShop',
   
-  // propTypes: {
-  //   shop: React.propTypes.string,
-  //   items: React.propTypes.array,
-  // },
+  propTypes: {
+    items:React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+      id: React.PropTypes.number.isRequired,
+      name: React.PropTypes.string,
+      price: React.PropTypes.number.isRequired,
+      urlItem: React.PropTypes.string,
+      count: React.PropTypes.number.isRequired,
+    })
+  )
+  },
   
-  // начальные занчения 
+  
   getInitialState: function () {
     return {
       heads: ['Name', 'Price', 'URL', 'Quantity', 'Control'],
       selectedItemId: '',
-      items: this.props.items
+      items: this.props.items,
     };
   },
 
@@ -44,16 +51,15 @@ let IShop = React.createClass({
       })
     );
     
-    // Объединение в результирующий VDOM
-    return React.DOM.div({className: "IShop"},
+    
+    return React.DOM.div({className: "IShopcont"},
     React.DOM.div({className: "ShopName"}, this.props.name),
-    React.DOM.table({className: "ShopProductTable"},
+    React.DOM.table({className: "Ishop"},
         React.DOM.thead({}, itemsHead),
         React.DOM.tbody({}, itemTable)
     )
 );
 },
-
 });
 
 
