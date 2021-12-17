@@ -6,18 +6,18 @@ import './Item.css';
 class Item extends React.Component {
 
     static propTypes = {
-        // items: React.PropTypes.arrayOf(
-        //     React.PropTypes.shape({
-        //         id: React.PropTypes.number.isRequired,
-        //         name: React.PropTypes.string,
-        //         price: React.PropTypes.number.isRequired,
-        //         urlItem: React.PropTypes.string,
-        //         count: React.PropTypes.number.isRequired,
-        //     })
-        // ),
-        // selectedItems: React.PropTypes.bool.isRequired,
-        // cbSelect: React.PropTypes.func.isRequired,
-        // cbDelete: React.PropTypes.func.isRequired,
+        items: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                name: PropTypes.string,
+                price: PropTypes.number.isRequired,
+                urlItem: PropTypes.string,
+                count: PropTypes.number.isRequired,
+            })
+        ),
+        selectedItems: PropTypes.bool.isRequired,
+        cbSelect: PropTypes.func.isRequired,
+        cbDelete: PropTypes.func.isRequired,
     };
 
     selectedRow = () => {

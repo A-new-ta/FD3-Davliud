@@ -10,6 +10,7 @@ let itemsArr = require('./itemsArr.json');
 
 
 ReactDOM.render(
+  
   <Ishop
     shop={shopName}
     items={itemsArr}

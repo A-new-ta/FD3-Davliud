@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 
 import './Ishop.css';
 
-import IshopName from './IshopName';
 import Item from './Item';
 
 
 class Ishop extends React.Component {
 
   static propTypes = {
-    // items: React.PropTypes.arrayOf(
-    //   React.PropTypes.shape({
-    //     id: React.PropTypes.number.isRequired,
-    //     name: React.PropTypes.string,
-    //     price: React.PropTypes.number.isRequired,
-    //     urlItem: React.PropTypes.string,
-    //     count: React.PropTypes.number.isRequired,
-    //   })
-    // )
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string,
+        price: PropTypes.number.isRequired,
+        urlItem: PropTypes.string,
+        count: PropTypes.number.isRequired,
+      })
+    ),
+    shop: PropTypes.string
   }
 
   state = {
@@ -36,7 +36,7 @@ class Ishop extends React.Component {
   }
 
   render() {
-    
+    let shopName = this.props.shop
     let itemHead = <tr>
       {this.state.heads.map((v, i) => <th> {({ key: i, className: 'ShopHead' }, v)} </th>)}
     </tr>
@@ -53,8 +53,8 @@ class Ishop extends React.Component {
 
     return (
       <div>
-        <IshopName name={this.props.name} />
-        <table>
+        <div className='IshopName'>{shopName}</div>
+        <table className='Ishop'>
           <thead>{itemHead}</thead>
           <tbody>{itemTable}</tbody>
         </table>
@@ -64,7 +64,7 @@ class Ishop extends React.Component {
 }
 
 
-  
+export default Ishop;
 
   
     
