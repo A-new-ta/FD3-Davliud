@@ -1,0 +1,8 @@
+.ItemView {
+    margin-top: 50px;
+}
+
+.ItemView .ItemName, .ItemView .ItemPrice, .ItemView .ItemCount {
+    margin-bottom: 20px;
+    font-weight: 700;
+}

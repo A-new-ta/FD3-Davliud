@@ -1,5 +1,4 @@
 .Ishop {
-  margin: 0 auto;
   border-spacing: 2px;
   border: 1px solid black;
 }
@@ -12,7 +11,6 @@
 
 .IshopName {
   margin: 20px auto;
-  text-align: center;
   font-weight: 700;
   font-size: 24px;
 }

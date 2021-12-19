@@ -6,18 +6,16 @@ import './Item.css';
 class Item extends React.Component {
 
     static propTypes = {
-        items: PropTypes.arrayOf(
-            PropTypes.shape({
-                id: PropTypes.number.isRequired,
-                name: PropTypes.string,
-                price: PropTypes.number.isRequired,
-                urlItem: PropTypes.string,
-                count: PropTypes.number.isRequired,
-            })
-        ),
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        urlItem: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired,
+        
         selectedItems: PropTypes.bool.isRequired,
-        cbSelect: PropTypes.func.isRequired,
-        cbDelete: PropTypes.func.isRequired,
+        cbSelect: PropTypes.func.isRequired, // callback для выделения товара
+        cbDelete: PropTypes.func.isRequired, // callback для удаления товара
+        cbEdit: PropTypes.func.isRequired, // callback для редактирования товара
     };
 
     selectedRow = () => {
