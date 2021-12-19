@@ -14,13 +14,14 @@ class Ishop extends React.Component {
 
   state = {
     heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control'],
-    selectedItemId: '',
+    selectedItemId: 0,
     items: this.props.items.slice(), 
     cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
     buttonMode: false,
     blockChange: false,
-
+    idNew: this.props.items.length+1,
   }
+
 // при нажатии по кнопке delete
   deleteItem = (id) => {
     this.setState({ items: this.state.items.filter(v => v.id != id), cardMode: 0 })
@@ -44,13 +45,23 @@ class Ishop extends React.Component {
 
 // edit button
   changeItem = (id) => {
-
+    this.setState({ cardMode: 2, selectedItemId: id, buttonMode: true });
   }
+
+  OnChange = () => {
+    this.setState({ blockChange: true });
+  }
+
+  addItem = () => {
+    this.setState({ cardMode: 3, buttonMode: true, blockChange: true, selectedItemId: 0 });
+  }
+
 
 
 
   render() {
     let item = this.state.items.find((v => v.id === this.state.selectedItemId));
+    let newItem = { id: this.state.idNew, name: '', price: '', urlItem: '', count: '' };
     let shopName = this.props.shop
     let itemHead = <tr>
       {this.state.heads.map((v, i) => <th className='ShopHead' key={i}>{v}</th>)}
@@ -83,7 +94,32 @@ class Ishop extends React.Component {
           <thead>{itemHead}</thead>
           <tbody>{itemTable}</tbody>
         </table>
-        {this.state.cardMode == 1 && <ItemView item={item}/>}
+        {(this.state.cardMode === 0 || this.state.cardMode === 1) && <input type='button' value='New product' onClick={this.addItem}/>}
+        {this.state.cardMode === 1 && <ItemView item={item} />}
+        {this.state.cardMode === 2 && <ItemEdit
+          key={item.id}
+          cardMode={this.state.cardMode}
+          item={item}
+          nameIsValid={true}
+          priceIsValid={true}
+          urlIsValid={true}
+          countIsValid={true}
+          cbSaveChanges={this.cbSave}
+          cbCancelChanges={this.cbCancel}
+          cbOnChange={this.OnChange}
+        />}
+        {this.state.cardMode === 3 && <ItemEdit
+          key={newItem.id}
+          cardMode={this.state.cardMode}
+          item={newItem}
+          nameIsValid={false}
+          priceIsValid={false}
+          urlIsValid={false}
+          countIsValid={false}
+          cbSaveChanges={this.cbSave}
+          cbCancelChanges={this.cbCancel}
+          cbOnChange={this.OnChange}
+        />}
       </div>
     )
   }
