@@ -16,10 +16,18 @@ class Item extends React.Component {
         cbSelect: PropTypes.func.isRequired, // callback для выделения товара
         cbDelete: PropTypes.func.isRequired, // callback для удаления товара
         cbEdit: PropTypes.func.isRequired, // callback для редактирования товара
+        buttonMode: PropTypes.bool.isRequired,
+        blockChange: PropTypes.bool.isRequired,
+        
     };
 
     selectedRow = () => {
         this.props.cbSelect(this.props.selectedItems ? '' : this.props.id);
+    }
+
+    editRow = (eo) => {
+        this.props.cbEdit(this.props.id);
+        eo.stopPropagation();
     }
 
     deleteRow = (eo) => {
@@ -39,9 +47,9 @@ class Item extends React.Component {
                 </td>
                 <td className='ItemCount'>{this.props.count}</td>
                 <td className='ItemAction'>
-                    <input type='button' name='deleteButton' className='ItemButton'
-                        value='delete'
-                        onClick={this.deleteRow}></input>
+                    <input type='button' className='ItemButton' value='edit' disabled={this.props.blockChange} onClick={this.editRow}/>
+                    <input type='button' className='ItemButton' value='delete' disabled={this.props.buttonMode}
+                        onClick={this.deleteRow}/>
                 </td>
             </tr>
         )

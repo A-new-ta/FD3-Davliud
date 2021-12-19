@@ -13,11 +13,12 @@ class Ishop extends React.Component {
   }
 
   state = {
-    heads: ['Name', 'Price', 'URL', 'Quantity', 'Control'],
+    heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control'],
     selectedItemId: '',
     items: this.props.items.slice(), 
     cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
     buttonMode: false,
+    blockChange: false,
 
   }
 // при нажатии по кнопке delete
@@ -70,6 +71,7 @@ class Ishop extends React.Component {
         
         cbEditItem={this.changeItem}
         buttonMode={this.state.buttonMode}
+        blockChange={this.state.blockChange}
 
       />
     );
