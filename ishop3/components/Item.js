@@ -22,12 +22,13 @@ class Item extends React.Component {
     };
 
     selectedRow = () => {
-        this.props.cbSelect(this.props.selectedItems ? '' : this.props.id);
+        if (this.props.blockChange !== true)
+        this.props.cbSelect(this.props.id);
     }
 
     editRow = (eo) => {
-        this.props.cbEdit(this.props.id);
         eo.stopPropagation();
+        this.props.cbEdit(this.props.id);
     }
 
     deleteRow = (eo) => {
@@ -39,7 +40,7 @@ class Item extends React.Component {
         return (
             <tr className={this.props.selectedItems ? 'ItemSelect' : 'Item'}
                 key={this.props.id}
-                onClick={this.selectedRow}>
+                onClick = { this.selectedRow }>
                 <td className='ItemName'>{this.props.name}</td>
                 <td className='ItemPrice'>{this.props.price}</td>
                 <td className='ItemImage'>
@@ -47,13 +48,12 @@ class Item extends React.Component {
                 </td>
                 <td className='ItemCount'>{this.props.count}</td>
                 <td className='ItemAction'>
-                    <input type='button' className='ItemButton' value='edit' disabled={this.props.blockChange} onClick={this.editRow}/>
-                    <input type='button' className='ItemButton' value='delete' disabled={this.props.buttonMode}
-                        onClick={this.deleteRow}/>
+                    <input type='button' className='ItemButton' value='Edit' disabled={this.props.blockChange} onClick={this.editRow}/>
+                    <input type='button' className='ItemButton' value='Delete' disabled={this.props.buttonMode} onClick={this.deleteRow}/>
                 </td>
             </tr>
         )
-    }
+    };
 }
 
 export default Item;

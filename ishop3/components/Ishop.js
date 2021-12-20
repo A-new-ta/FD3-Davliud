@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import './Ishop.css';
 import Item from './Item';
 import ItemView from './ItemView';
+import ItemEdit from './ItemEdit';
+  
+
 
 
 class Ishop extends React.Component {
@@ -17,9 +20,9 @@ class Ishop extends React.Component {
     selectedItemId: 0,
     items: this.props.items.slice(), 
     cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
-    buttonMode: false,
-    blockChange: false,
-    idNew: this.props.items.length+1,
+    buttonMode: false, // delete button block
+    blockChange: false, // edit button block
+    idNew: this.props.items.length + 1,
   }
 
 // при нажатии по кнопке delete
@@ -33,14 +36,29 @@ class Ishop extends React.Component {
   }
 
 
-// callback для itemEdit
+// callback для itemEdit сохранение товара
   cbSave = (newItem) => {
-
+    if (this.state.cardMode === 2) {
+      let editInd;
+      this.state.items.forEach((v, i) => {
+        if (v.id === newItem.id) {
+          editInd = i;
+        }
+      });
+      let editItems = this.state.items;
+      editItems[editInd] = newItem;
+      this.setState({ items: editItems });
+    }
+    if (this.state.cardMode === 3) {
+      this.state.items.push(newItem);
+      this.setState({ idNew: newItem.id + 1 });
+    }
+    this.setState({ cardMode: 0, buttonMode: false, blockChange: false });
   }
 
 // cancel button
   cbCancel = () => {
-
+    this.setState({ cardMode: 0, buttonMode: false, blockChange: false });
   }
 
 // edit button
@@ -50,6 +68,8 @@ class Ishop extends React.Component {
 
   OnChange = () => {
     this.setState({ blockChange: true });
+    // блокировать нажатие на товары в таблице
+    
   }
 
   addItem = () => {
@@ -80,7 +100,7 @@ class Ishop extends React.Component {
         cbSelect={this.selectItem}
         cbDelete={this.deleteItem}
         
-        cbEditItem={this.changeItem}
+        cbEdit={this.changeItem}
         buttonMode={this.state.buttonMode}
         blockChange={this.state.blockChange}
 
