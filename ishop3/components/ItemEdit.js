@@ -77,9 +77,9 @@ class ItemEdit extends React.Component {
         let newItem = {};
         newItem.id = this.state.id;
         newItem.name = this.state.name;
-        newItem.price = this.state.price;
+        newItem.price = +(this.state.price);
         newItem.urlItem = this.state.urlItem;
-        newItem.count = this.state.count;
+        newItem.count = +(this.state.count);
         this.props.cbSaveChanges(newItem);
     }
 

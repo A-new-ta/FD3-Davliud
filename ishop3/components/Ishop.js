@@ -18,7 +18,7 @@ class Ishop extends React.Component {
   state = {
     heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control'],
     selectedItemId: 0,
-    items: this.props.items.slice(), 
+    items: this.props.items, 
     cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
     buttonMode: false, // delete button block
     blockChange: false, // edit button block
