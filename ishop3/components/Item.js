@@ -32,7 +32,7 @@ class Item extends React.Component {
     }
 
     deleteRow = (eo) => {
-        if (confirm('Хотите удалить товар?')) this.props.cbDelete(this.props.id);
+        if (confirm('Do you want to delete the item?')) this.props.cbDelete(this.props.id);
         eo.stopPropagation();
     }
 

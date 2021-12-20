@@ -33,7 +33,7 @@ class ItemEdit extends React.Component {
     editNameField = (eo) => {
         this.props.cbOnChange();
         this.setState({ name: eo.target.value });
-        if (!eo.target.value) {
+        if (!eo.target.value || eo.target.value.length <= 5) {
             this.setState({ nameIsValid: false })
         } else {
             this.setState({ nameIsValid: true });
@@ -43,7 +43,8 @@ class ItemEdit extends React.Component {
     editPriceField = (eo) => {
         this.props.cbOnChange();
         this.setState({ price: eo.target.value });
-        if (!eo.target.value) {
+        let pattern = /^-?\d+\.?\d*$/;
+        if (!eo.target.value || !pattern.test(eo.target.value) || eo.target.value <= 0) {
             this.setState({ priceIsValid: false })
         } else {
             this.setState({ priceIsValid: true });
@@ -53,7 +54,8 @@ class ItemEdit extends React.Component {
     editUrlField = (eo) => {
         this.props.cbOnChange();
         this.setState({ urlItem: eo.target.value });
-        if (!eo.target.value) {
+        let pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+        if (!eo.target.value || !pattern.test(eo.target.value)) {
             this.setState({ urlIsValid: false })
         } else {
             this.setState({ urlIsValid: true });
@@ -63,7 +65,8 @@ class ItemEdit extends React.Component {
     editCountField = (eo) => {
         this.props.cbOnChange();
         this.setState({ count: eo.target.value });
-        if (!eo.target.value) {
+        let pattern = /^\d+$/;
+        if (!eo.target.value || !pattern.test(eo.target.value)) {
             this.setState({ countIsValid: false })
         } else {
             this.setState({ countIsValid: true });
@@ -94,7 +97,7 @@ class ItemEdit extends React.Component {
             <div className='FieldEdit'>
                 <label>Name: </label>
                 <input name='itemName' value={this.state.name} onChange={this.editNameField} />
-                {(!this.state.nameIsValid) && <span className='ErrorField'>Please, fill the field. Value must be a string</span>}
+                {(!this.state.nameIsValid) && <span className='ErrorField'>Please, fill the field. Value must be at least 5 characters</span>}
             </div>
             <div className='FieldEdit'>
                 <label>Price: </label>

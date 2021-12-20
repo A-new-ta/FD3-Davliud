@@ -68,15 +68,11 @@ class Ishop extends React.Component {
 
   OnChange = () => {
     this.setState({ blockChange: true });
-    // блокировать нажатие на товары в таблице
-    
   }
 
   addItem = () => {
     this.setState({ cardMode: 3, buttonMode: true, blockChange: true, selectedItemId: 0 });
   }
-
-
 
 
   render() {
