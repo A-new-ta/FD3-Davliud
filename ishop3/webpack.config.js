@@ -3,14 +3,14 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractCSS = new ExtractTextPlugin({
-    filename: "bundle.css"
+    filename: "./src/bundle.css"
 });
 
 module.exports = { 
-    entry: "./App.js", // основной файл приложения
+    entry: "./src/App.js", // основной файл приложения
     output:{ 
         path: __dirname, // путь к каталогу выходных файлов
-        filename: "bundle.js"  // название создаваемого файла 
+        filename: "./src/bundle.js"  // название создаваемого файла 
     }, 
     devtool:'source-map',
     module:{ 

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Ishop.css';
-import Item from './Item';
-import ItemView from './ItemView';
-import ItemEdit from './ItemEdit';
+import Item from '../Item/Item';
+import ItemView from '../ItemView/ItemView';
+import ItemEdit from '../ItemEdit/ItemEdit';
   
 
 
