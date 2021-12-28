@@ -1,4 +1,5 @@
 import React from "react";
+import '../components/withRainbowFrame.css';
 
 const withRainbowFrame = (colors) => (Component) => (props) => (
     colors.reduce((res, color) => (
