@@ -1,60 +1,41 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import './Item.css';
 
-class Item extends React.Component {
+function Item(props) {
 
-    static propTypes = {
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        urlItem: PropTypes.string.isRequired,
-        count: PropTypes.number.isRequired,
-        
-        selectedItems: PropTypes.bool.isRequired,
-        cbSelect: PropTypes.func.isRequired, // callback для выделения товара
-        cbDelete: PropTypes.func.isRequired, // callback для удаления товара
-        cbEdit: PropTypes.func.isRequired, // callback для редактирования товара
-        buttonMode: PropTypes.bool.isRequired,
-        blockChange: PropTypes.bool.isRequired,
-        
-    };
-
-    selectedRow = () => {
-        if (this.props.blockChange !== true)
-        this.props.cbSelect(this.props.id);
+    function selectedRow() {
+        if (props.blockChange !== true)
+        props.cbSelect(props.id);
     }
 
-    editRow = (eo) => {
+    function editRow(eo) {
         eo.stopPropagation();
-        this.props.cbEdit(this.props.id);
+        props.cbEdit(props.id);
     }
 
-    deleteRow = (eo) => {
-        if (confirm('Do you want to delete the item?')) this.props.cbDelete(this.props.id);
+    function deleteRow(eo) {
         eo.stopPropagation();
+        if (confirm('Do you want to delete the item?')) props.cbDelete(props.id);
     }
 
-    render() {
-        return (
-            <tr className={this.props.selectedItems ? 'ItemSelect' : 'Item'}
-                key={this.props.id}
-                onClick = { this.selectedRow }>
-                <td className='ItemName'>{this.props.name}</td>
-                <td className='ItemPrice'>{this.props.price}</td>
+    return (
+            <tr className={props.selectedItems ? 'ItemSelect' : 'Item'}
+                key={props.id}
+                onClick = {selectedRow}>
+                <td className='ItemName'>{props.name}</td>
+                <td className='ItemPrice'>{props.price}</td>
                 <td className='ItemImage'>
-                    <img src={this.props.urlItem} alt={this.props.name}></img>
+                    <img src={props.urlItem} alt={props.name}></img>
                 </td>
-                <td className='ItemCount'>{this.props.count}</td>
+                <td className='ItemCount'>{props.count}</td>
                 <td className='ItemAction'>
-                    <input type='button' className='ItemButton' value='Edit' disabled={this.props.blockChange} onClick={this.editRow}/>
-                    <input type='button' className='ItemButton' value='Delete' disabled={this.props.buttonMode} onClick={this.deleteRow}/>
+                    <input type='button' className='ItemButton' value='Edit' disabled={props.blockChange} onClick={editRow}/>
+                    <input type='button' className='ItemButton' value='Delete' disabled={props.buttonMode} onClick={deleteRow}/>
                 </td>
             </tr>
-        )
-    };
+            );
 }
+
 
 export default Item;
         

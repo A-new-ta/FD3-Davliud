@@ -10,10 +10,10 @@ import ItemEdit from './ItemEdit/ItemEdit';
 
 class Ishop extends React.Component {
 
-  static propTypes = {
-    items: PropTypes.array.isRequired,
-    shop: PropTypes.string.isRequired
-  }
+  // static propTypes = {
+  //   items: PropTypes.array.isRequired,
+  //   shop: PropTypes.string.isRequired
+  // }
 
   state = {
     heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control'],
