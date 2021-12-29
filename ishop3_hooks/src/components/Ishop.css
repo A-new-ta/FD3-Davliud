@@ -1,0 +1,19 @@
+.Ishop {
+  border-spacing: 2px;
+  border: 1px solid black;
+}
+
+.Ishop .ShopHead {
+  text-align: center;
+  background: rgb(235, 234, 232);
+  padding: 5px;
+}
+
+.IshopName {
+  margin: 20px auto;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+
+
