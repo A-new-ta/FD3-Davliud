@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Ishop.css';
 import Item from './Item/Item';
 import ItemView from './ItemView/ItemView';
 import ItemEdit from './ItemEdit/ItemEdit';
   
-
 
 
 class Ishop extends React.Component {
@@ -27,7 +25,7 @@ class Ishop extends React.Component {
 
 // при нажатии по кнопке delete
   deleteItem = (id) => {
-    this.setState({ items: this.state.items.filter(v => v.id != id), cardMode: 0 })
+    this.setState({ items: this.state.items.filter(v => v.id !== id), cardMode: 0 })
   }
 
 // клик по строке с товаром
@@ -92,7 +90,7 @@ class Ishop extends React.Component {
         urlItem={item.urlItem}
         count={item.count}
 
-        selectedItems={item.id == this.state.selectedItemId}
+        selectedItems={item.id === this.state.selectedItemId}
         cbSelect={this.selectItem}
         cbDelete={this.deleteItem}
         

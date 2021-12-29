@@ -15,7 +15,7 @@ function Item(props) {
 
     function deleteRow(eo) {
         eo.stopPropagation();
-        if (confirm('Do you want to delete the item?')) props.cbDelete(props.id);
+        if (window.confirm ('Do you want to delete the item?')) props.cbDelete(props.id);
     }
 
     return (

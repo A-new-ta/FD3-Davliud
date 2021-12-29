@@ -1,7 +1,7 @@
-﻿import React from 'react';
-import ReactDOM from 'react-dom';
+﻿
+import React from 'react';
 import Ishop from './components/Ishop';
-import itemsArr from './itemsArr.json'
+import itemsArr from './itemsArr.json';
 
 const shopName = 'Магазин спортивной обуви';
 
