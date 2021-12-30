@@ -8,36 +8,22 @@ import ItemEdit from './ItemEdit/ItemEdit';
 
 function Ishop (props) {
 
-  // const {name, price, urlItem, count} = props.items;
-  // static propTypes = {
-  //   items: PropTypes.array.isRequired,
-  //   shop: PropTypes.string.isRequired
-  // }
-  const [items, setItems] = useState([props.items]);
+  const [items, setItems] = useState(props.items);
   const [selectedItemId, setSelectedItemId] = useState(0);
   const [cardMode, setCardMode] = useState(0);
   const [buttonMode, setButtonMode] = useState(false);
   const [blockChange, setBlockChange] = useState(false);
-  const [idNew, setIdNew] = useState(items.length + 1);
-
-  // state = {
-  // heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control']
-  //   selectedItemId: 0,
-  //   items: this.props.items, 
-  //   cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
-  //   buttonMode: false, // delete button block
-  //   blockChange: false, // edit button block
-  //   idNew: this.props.items.length + 1,
-  // }
-
-// при нажатии по кнопке delete
-  function deleteItem (id) {
-    const deletedItems = items.filter(v => v.id !== id);
-    setItems(deletedItems);
-    setCardMode(0);
+  const [idNew, setIdNew] = useState(props.items.length + 1);
+  
+  
+  // edit button
+  function changeItem (id) {
+    setCardMode(2);
+    setSelectedItemId(id);
+    setButtonMode(true);
   }
 
-// клик по строке с товаром
+  // клик по строке с товаром
   function selectItem (id) {
     setCardMode(1);
     setSelectedItemId(id);
@@ -45,7 +31,7 @@ function Ishop (props) {
   }
 
 
-// callback для itemEdit сохранение товара
+  // callback для itemEdit сохранение товара
   function cbSave(newItem) {
     if (cardMode === 2) {
       let editInd;
@@ -67,19 +53,23 @@ function Ishop (props) {
     setBlockChange(false);
   }
 
-// cancel button
+
+  // cancel button
   function cbCancel () {
     setCardMode(0);
     setButtonMode(false);
     setBlockChange(false);
   }
 
-// edit button
-  function changeItem (id) {
-    setCardMode(2);
-    setSelectedItemId(id);
-    setButtonMode(true);
+// при нажатии по кнопке delete
+  function deleteItem (id) {
+    const deletedItems = items.filter(v => v.id !== id);
+    setItems(deletedItems);
+    setSelectedItemId(0);
+    setCardMode(0);
   }
+
+
 
   function OnChange () {
     setBlockChange(true);
@@ -93,18 +83,13 @@ function Ishop (props) {
   }
 
 
-  let item = items.find((v => v.id === selectedItemId));
-  console.log(item);
+  let item = props.items.find((v => v.id === selectedItemId));
+  
   let newItem = { id: idNew, name: '', price: '', urlItem: '', count: '' };
-  // let shopName = {shopName}
-  // let itemHead = <tr>
-  //     {heads.map((v, i) => <th className='ShopHead' key={i}>{v}</th>)}
-  //   </tr>
-
+  
     return (
       <div>
-        
-        <table className='Ishop'>
+       <table className='Ishop'>
           <caption>{props.shop}</caption>
           <tbody>
             <tr>
@@ -114,7 +99,7 @@ function Ishop (props) {
               <th>Quantity</th>
               <th>Control</th>
             </tr>
-            {props.items.map(item =>
+            {items.map(item =>
               <Item
                 key={item.id}
                 id={item.id}

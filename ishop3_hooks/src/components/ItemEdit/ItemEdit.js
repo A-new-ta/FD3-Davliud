@@ -85,9 +85,9 @@ function ItemEdit(props) {
         const newItem = {
             id: item.id,
             name: item.name,
-            price: item.price,
+            price: +item.price,
             urlItem: item.urlItem,
-            count: item.count
+            count: +item.count
         };
         props.cbSaveChanges(newItem);
     }

@@ -1,5 +1,4 @@
-﻿
-import React from 'react';
+﻿import React from 'react';
 import Ishop from './components/Ishop';
 import itemsArr from './itemsArr.json';
 
