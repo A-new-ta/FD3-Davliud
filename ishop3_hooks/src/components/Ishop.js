@@ -14,8 +14,7 @@ function Ishop (props) {
   const [buttonMode, setButtonMode] = useState(false);
   const [blockChange, setBlockChange] = useState(false);
   const [idNew, setIdNew] = useState(props.items.length + 1);
-  
-  
+    
   // edit button
   function changeItem (id) {
     setCardMode(2);
@@ -84,7 +83,6 @@ function Ishop (props) {
 
 
   let item = props.items.find((v => v.id === selectedItemId));
-  
   let newItem = { id: idNew, name: '', price: '', urlItem: '', count: '' };
   
     return (
@@ -92,7 +90,7 @@ function Ishop (props) {
        <table className='Ishop'>
           <caption>{props.shop}</caption>
           <tbody>
-            <tr>
+            <tr className='head'>
               <th>Name</th>
               <th>Price, byn</th>
               <th>URL</th>
@@ -149,17 +147,4 @@ function Ishop (props) {
     )
 }
 
-
-
 export default Ishop;
-
-  
-    
-    
-    
-
-
-
-
-    
-  

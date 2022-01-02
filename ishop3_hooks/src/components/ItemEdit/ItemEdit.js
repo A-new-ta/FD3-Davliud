@@ -6,26 +6,26 @@ import './ItemEdit.css';
 function ItemEdit(props) {
  
    const [item, setItem] = useState({
-        id: props.item.id || '',
-        name: props.item.name || '',
-        price: props.item.price || '',
-        urlItem: props.item.urlItem || '',
-        count: props.item.count || ''
+        id: props.item.id,
+        name: props.item.name,
+        price: props.item.price,
+        urlItem: props.item.urlItem,
+        count: props.item.count
     });
 
     const [validationFields, setValidationFields] = useState({
-        name: !props.disabled,
-        price: !props.disabled,
-        urlItem: !props.disabled,
-        count: !props.disabled
+        name: props.nameIsValid,
+        price: props.priceIsValid,
+        urlItem: props.urlIsValid,
+        count: props.countIsValid
     });
-
+    
     const [validationMessage, setValidationMessage] = useState({});
-    const [disabled, setDisabled] = useState(props.disabled);
-
+    
     useEffect(() => {
         setItem({ ...item, ...props.item });
     }, [props.item]);
+    
     
     
     function editAllFields(eo) {
@@ -77,7 +77,6 @@ function ItemEdit(props) {
         setItem({ ...item, [name]: value });
         setValidationFields(fields);
         setValidationMessage(messages);
-        setDisabled(Object.keys(fields).some(item => fields[item] === false));
     }
     
 
@@ -91,12 +90,7 @@ function ItemEdit(props) {
         };
         props.cbSaveChanges(newItem);
     }
-
-    // function cancelChanges () {
-    //     props.cbCancelChanges();
-    // }
-
-    
+        
     return (
         <div>
             {props.cardMode === 2 && <h3>Edit existing product</h3>}
@@ -130,8 +124,8 @@ function ItemEdit(props) {
             </div>
 
             <div>
-                {props.cardMode === 2 && <input type='button' value='Save' onClick={saveChanges} disabled={disabled} />}
-                {props.cardMode === 3 && <input type='button' value='Add' onClick={saveChanges} disabled={disabled} />}
+                {props.cardMode === 2 && <input type='button' value='Save' onClick={saveChanges} disabled={!(validationFields.name && validationFields.price && validationFields.urlItem && validationFields.count)} />}
+                {props.cardMode === 3 && <input type='button' value='Add' onClick={saveChanges} disabled={!(validationFields.name && validationFields.price && validationFields.urlItem && validationFields.count)} />}
                 <input type='button' value='Cancel' onClick={props.cbCancelChanges} />
             </div>
         </div>

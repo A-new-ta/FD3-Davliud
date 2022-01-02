@@ -87,6 +87,8 @@ class ItemEdit extends React.Component {
         this.props.cbCancelChanges();
     }
 
+    
+
     render() {
         return <div>
             {this.props.cardMode === 2 && <h3>Edit existing product</h3>}

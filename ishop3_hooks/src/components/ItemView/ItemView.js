@@ -3,13 +3,12 @@ import './ItemView.css';
 
 
 function ItemView(props) {
-    const {name, price, count} = props.item;
-    
+        
     return (
         <div className='ItemView'>
-            <div className='ItemName'>Name: {name}</div>
-            <div className='ItemPrice'>Price, byn: {price}</div>
-            <div className='ItemCount'>Quantity: {count}</div>
+            <div className='ItemName'>Name: {props.item.name}</div>
+            <div className='ItemPrice'>Price, byn: {props.item.price}</div>
+            <div className='ItemCount'>Quantity: {props.item.count}</div>
         </div>
     );
 }
