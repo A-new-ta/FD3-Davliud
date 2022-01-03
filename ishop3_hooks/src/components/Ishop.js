@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Ishop.css';
 import Item from './Item/Item';
 import ItemView from './ItemView/ItemView';
@@ -8,13 +8,40 @@ import ItemEdit from './ItemEdit/ItemEdit';
 
 function Ishop (props) {
 
-  const [items, setItems] = useState(props.items);
+  const [items, setItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(0);
   const [cardMode, setCardMode] = useState(0);
   const [buttonMode, setButtonMode] = useState(false);
   const [blockChange, setBlockChange] = useState(false);
-  const [idNew, setIdNew] = useState(props.items.length + 1);
+  const [idNew, setIdNew] = useState(0);
     
+  useEffect(() => {
+    const url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+    const name = 'DAVLIUD_ISHOP3_TEST';
+        const params = new URLSearchParams();
+        params.append('f', 'READ');
+        params.append('n', name);
+
+        const options = {
+            method: 'POST',
+            body: params
+        }
+       
+        fetch(url, options)
+            .then(response => response.json())
+            .then((result) => {
+              let itemArr = JSON.parse(result.result);
+              setItems((itemArr));
+              return itemArr;
+            }) 
+
+            .then((itemArr) => {
+              setIdNew(itemArr.length+1);
+            })
+            .catch(error => console.log(error));
+        }, []);
+
+        
   // edit button
   function changeItem (id) {
     setCardMode(2);
@@ -82,7 +109,7 @@ function Ishop (props) {
   }
 
 
-  let item = props.items.find((v => v.id === selectedItemId));
+  let item = items.find((v => v.id === selectedItemId));
   let newItem = { id: idNew, name: '', price: '', urlItem: '', count: '' };
   
     return (
