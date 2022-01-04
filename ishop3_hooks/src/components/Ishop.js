@@ -14,8 +14,10 @@ function Ishop (props) {
   const [buttonMode, setButtonMode] = useState(false);
   const [blockChange, setBlockChange] = useState(false);
   const [idNew, setIdNew] = useState(0);
+  const [dataReady, setDataReady] = useState(false);
     
   useEffect(() => {
+    
     const url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
     const name = 'DAVLIUD_ISHOP3_TEST';
         const params = new URLSearchParams();
@@ -26,15 +28,14 @@ function Ishop (props) {
             method: 'POST',
             body: params
         }
-       
         fetch(url, options)
             .then(response => response.json())
             .then((result) => {
               let itemArr = JSON.parse(result.result);
               setItems((itemArr));
+              setDataReady(true);
               return itemArr;
             }) 
-
             .then((itemArr) => {
               setIdNew(itemArr.length+1);
             })
@@ -111,7 +112,10 @@ function Ishop (props) {
 
   let item = items.find((v => v.id === selectedItemId));
   let newItem = { id: idNew, name: '', price: '', urlItem: '', count: '' };
-  
+
+  if (!dataReady) 
+      return <div>Loading...</div>
+    
     return (
       <div>
        <table className='Ishop'>
