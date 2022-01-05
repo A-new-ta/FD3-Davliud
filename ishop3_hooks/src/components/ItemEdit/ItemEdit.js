@@ -1,126 +1,135 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+
 
 import './ItemEdit.css';
 
-class ItemEdit extends React.Component {
+function ItemEdit(props) {
  
-    static PropTypes = {
-        item: PropTypes.object.isRequired,
-        cardMode: PropTypes.number.isRequired,
-        nameIsValid: PropTypes.bool.isRequired,
-        priceIsValid: PropTypes.bool.isRequired,
-        urlIsValid: PropTypes.bool.isRequired,
-        countIsValid: PropTypes.bool.isRequired,
-        cbSaveChanges: PropTypes.func.isRequired,
-        cbCancelChanges: PropTypes.func.isRequired,
-        cbOnChange: PropTypes.func.isRequired,
-    }
+   const [item, setItem] = useState({
+        id: props.item.id,
+        name: props.item.name,
+        price: props.item.price,
+        urlItem: props.item.urlItem,
+        count: props.item.count
+    });
 
-    state = {
-        id: this.props.item.id,
-        name: this.props.item.name,
-        price: this.props.item.price,
-        urlItem: this.props.item.urlItem,
-        count: this.props.item.count,
+    const [validationFields, setValidationFields] = useState({
+        name: props.nameIsValid,
+        price: props.priceIsValid,
+        urlItem: props.urlIsValid,
+        count: props.countIsValid
+    });
+    
+    const [validationMessage, setValidationMessage] = useState({});
+    
+    useEffect(() => {
+        setItem({ ...item, ...props.item });
+    }, [props.item]);
+    
+    
+    
+    function editAllFields(eo) {
+        props.cbOnChange();
+        const name = eo.target.name;
+        const value = eo.target.value;
+        const messages = { ...validationMessage };
+        const fields = { ...validationFields };
 
-        nameIsValid: this.props.nameIsValid,
-        priceIsValid: this.props.priceIsValid,
-        urlIsValid: this.props.urlIsValid,
-        countIsValid: this.props.countIsValid,
-    }
 
-    editNameField = (eo) => {
-        this.props.cbOnChange();
-        this.setState({ name: eo.target.value });
-        if (!eo.target.value || eo.target.value.length <= 5) {
-            this.setState({ nameIsValid: false })
-        } else {
-            this.setState({ nameIsValid: true });
+        switch (name) {
+            case 'name':
+                if (value.length <= 5) {
+                    messages.name = 'Please, fill the field. Value must be at least 5 characters';
+                    fields[name] = false;
+                } else {
+                    messages.name = '';
+                    fields[name] = true;
+                }
+                break;
+            case 'price':
+                if (!/^-?\d+\.?\d*$/.test(value) || value <= 0) {
+                    messages.price = 'Please, fill the field. Value must be a rational number greater than 0';
+                    fields[name] = false;
+                } else {
+                    messages.price = '';
+                    fields[name] = true;
+                }
+                break;
+            case 'urlItem':
+                if (!/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
+                    messages.urlItem = 'Please, fill the field. Value must be a valid URL';
+                    fields[name] = false;
+                } else {
+                    messages.urlItem = '';
+                    fields[name] = true;
+                }
+                break;
+            case 'count':
+                if (!/^\d+$/.test(value)) {
+                    messages.count = 'Please, fill the field. Value must be a positive integer';
+                    fields[name] = false;
+                } else {
+                    messages.count = '';
+                    fields[name] = true;
+                }
         }
-    }
 
-    editPriceField = (eo) => {
-        this.props.cbOnChange();
-        this.setState({ price: eo.target.value });
-        let pattern = /^-?\d+\.?\d*$/;
-        if (!eo.target.value || !pattern.test(eo.target.value) || eo.target.value <= 0) {
-            this.setState({ priceIsValid: false })
-        } else {
-            this.setState({ priceIsValid: true });
-        }
+        setItem({ ...item, [name]: value });
+        setValidationFields(fields);
+        setValidationMessage(messages);
     }
+    
 
-    editUrlField = (eo) => {
-        this.props.cbOnChange();
-        this.setState({ urlItem: eo.target.value });
-        let pattern = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!eo.target.value || !pattern.test(eo.target.value)) {
-            this.setState({ urlIsValid: false })
-        } else {
-            this.setState({ urlIsValid: true });
-        }
+    function saveChanges () {
+        const newItem = {
+            id: item.id,
+            name: item.name,
+            price: +item.price,
+            urlItem: item.urlItem,
+            count: +item.count
+        };
+        props.cbSaveChanges(newItem);
     }
-
-    editCountField = (eo) => {
-        this.props.cbOnChange();
-        this.setState({ count: eo.target.value });
-        let pattern = /^\d+$/;
-        if (!eo.target.value || !pattern.test(eo.target.value)) {
-            this.setState({ countIsValid: false })
-        } else {
-            this.setState({ countIsValid: true });
-        }
-    }
-
-    saveChanges = () => {
-        let newItem = {};
-        newItem.id = this.state.id;
-        newItem.name = this.state.name;
-        newItem.price = +(this.state.price);
-        newItem.urlItem = this.state.urlItem;
-        newItem.count = +(this.state.count);
-        this.props.cbSaveChanges(newItem);
-    }
-
-    cancelChanges = () => {
-        this.props.cbCancelChanges();
-    }
-
-    render() {
-        return <div>
-            {this.props.cardMode === 2 && <h3>Edit existing product</h3>}
-            {this.props.cardMode === 3 && <h3>Add new product</h3>}
+        
+    return (
+        <div>
+            {props.cardMode === 2 && <h3>Edit existing product</h3>}
+            {props.cardMode === 3 && <h3>Add new product</h3>}
             <div>
-                <label>id: {this.props.item.id}</label>
+                <label>id: {props.item.id}</label>
             </div>
+
             <div className='FieldEdit'>
                 <label>Name: </label>
-                <input name='itemName' value={this.state.name} onChange={this.editNameField} />
-                {(!this.state.nameIsValid) && <span className='ErrorField'>Please, fill the field. Value must be at least 5 characters</span>}
+                <input name='name' value={item.name} onChange={editAllFields} />
+                <span className='ErrorField'>{validationMessage.name}</span>
             </div>
+
             <div className='FieldEdit'>
                 <label>Price: </label>
-                <input name='itemPrice' value={this.state.price} onChange={this.editPriceField} />
-                {(!this.state.priceIsValid) && <span className='ErrorField'>Please, fill the field. Value must be a rational number greater than 0</span>}
+                <input name='price' value={item.price} onChange={editAllFields} />
+                <span className='ErrorField'>{validationMessage.price}</span>
             </div>
+
             <div className='FieldEdit'>
                 <label>URL: </label>
-                <input name='itemURL' value={this.state.urlItem} onChange={this.editUrlField} />
-                {(!this.state.urlIsValid) && <span className='ErrorField'>Please, fill the field. Value must be a valid URL</span>}
+                <input name='urlItem' value={item.urlItem} onChange={editAllFields} />
+                <span className='ErrorField'>{validationMessage.urlItem}</span>
             </div>
+
             <div className='FieldEdit'>
                 <label>Count: </label>
-                <input name='itemCount' value={this.state.count} onChange={this.editCountField} />
-                {(!this.state.countIsValid) && <span className='ErrorField'>Please, fill the field. Value must be a positive integer</span>}
+                <input name='count' value={item.count} onChange={editAllFields} />
+                <span className='ErrorField'>{validationMessage.count}</span>
             </div>
+
             <div>
-                {this.props.cardMode === 2 && <input type='button' value='Save' onClick={this.saveChanges} disabled={!(this.state.nameIsValid && this.state.priceIsValid && this.state.urlIsValid && this.state.countIsValid)} />}
-                {this.props.cardMode === 3 && <input type='button' value='Add' onClick={this.saveChanges} disabled={!(this.state.nameIsValid && this.state.priceIsValid && this.state.urlIsValid && this.state.countIsValid)} />}
-                <input type='button' value='Cancel' onClick={this.cancelChanges}/>
+                {props.cardMode === 2 && <input type='button' value='Save' onClick={saveChanges} disabled={!(validationFields.name && validationFields.price && validationFields.urlItem && validationFields.count)} />}
+                {props.cardMode === 3 && <input type='button' value='Add' onClick={saveChanges} disabled={!(validationFields.name && validationFields.price && validationFields.urlItem && validationFields.count)} />}
+                <input type='button' value='Cancel' onClick={props.cbCancelChanges} />
             </div>
         </div>
-    }
+    );
 }
 
 export default ItemEdit;

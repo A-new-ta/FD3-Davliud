@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import './Ishop.css';
 import Item from './Item/Item';
 import ItemView from './ItemView/ItemView';
@@ -7,150 +6,178 @@ import ItemEdit from './ItemEdit/ItemEdit';
   
 
 
+function Ishop (props) {
 
-class Ishop extends React.Component {
+  const [items, setItems] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState(0);
+  const [cardMode, setCardMode] = useState(0);
+  const [buttonMode, setButtonMode] = useState(false);
+  const [blockChange, setBlockChange] = useState(false);
+  const [idNew, setIdNew] = useState(0);
+  const [dataReady, setDataReady] = useState(false);
+    
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+      const name = 'DAVLIUD_ISHOP3_TEST';
+         const params = new URLSearchParams();
+         params.append('f', 'READ');
+         params.append('n', name);
 
-  static propTypes = {
-    items: PropTypes.array.isRequired,
-    shop: PropTypes.string.isRequired
+         const options = {
+             method: 'POST',
+             body: params
+         }
+      try {
+        let response = await fetch(url, options);
+        let data = await response.json();
+        let itemArr = JSON.parse(data.result);
+        setItems((itemArr));
+        setDataReady(true);
+        setIdNew(itemArr.length+1);
+      }
+      catch(error) {
+        console.log(error);
+      }
+        
+    };
+    fetchData();
+}, []);
+  
+
+  // edit button
+  function changeItem (id) {
+    setCardMode(2);
+    setSelectedItemId(id);
+    setButtonMode(true);
   }
 
-  state = {
-    heads: ['Name', 'Price, byn', 'URL', 'Quantity', 'Control'],
-    selectedItemId: 0,
-    items: this.props.items, 
-    cardMode: 0, // 0 - нет, 1 - режим просмотра, 2 - режим редактирования, 3 - режим добавления товара
-    buttonMode: false, // delete button block
-    blockChange: false, // edit button block
-    idNew: this.props.items.length + 1,
-  }
-
-// при нажатии по кнопке delete
-  deleteItem = (id) => {
-    this.setState({ items: this.state.items.filter(v => v.id != id), cardMode: 0 })
-  }
-
-// клик по строке с товаром
-  selectItem = (id) => {
-    this.setState({ cardMode: 1, selectedItemId: id, buttonMode: false })
+  // клик по строке с товаром
+  function selectItem (id) {
+    setCardMode(1);
+    setSelectedItemId(id);
+    setButtonMode(false);
   }
 
 
-// callback для itemEdit сохранение товара
-  cbSave = (newItem) => {
-    if (this.state.cardMode === 2) {
+  // callback для itemEdit сохранение товара
+  function cbSave(newItem) {
+    if (cardMode === 2) {
       let editInd;
-      this.state.items.forEach((v, i) => {
+      items.forEach((v, i) => {
         if (v.id === newItem.id) {
           editInd = i;
         }
       });
-      let editItems = this.state.items;
+      let editItems = items;
       editItems[editInd] = newItem;
-      this.setState({ items: editItems });
+      setItems(editItems);
     }
-    if (this.state.cardMode === 3) {
-      this.state.items.push(newItem);
-      this.setState({ idNew: newItem.id + 1 });
+    if (cardMode === 3) {
+      items.push(newItem);
+      setIdNew(newItem.id + 1);
     }
-    this.setState({ cardMode: 0, buttonMode: false, blockChange: false });
-  }
-
-// cancel button
-  cbCancel = () => {
-    this.setState({ cardMode: 0, buttonMode: false, blockChange: false });
-  }
-
-// edit button
-  changeItem = (id) => {
-    this.setState({ cardMode: 2, selectedItemId: id, buttonMode: true });
-  }
-
-  OnChange = () => {
-    this.setState({ blockChange: true });
-  }
-
-  addItem = () => {
-    this.setState({ cardMode: 3, buttonMode: true, blockChange: true, selectedItemId: 0 });
+    setCardMode(0);
+    setButtonMode(false);
+    setBlockChange(false);
   }
 
 
-  render() {
-    let item = this.state.items.find((v => v.id === this.state.selectedItemId));
-    let newItem = { id: this.state.idNew, name: '', price: '', urlItem: '', count: '' };
-    let shopName = this.props.shop
-    let itemHead = <tr>
-      {this.state.heads.map((v, i) => <th className='ShopHead' key={i}>{v}</th>)}
-    </tr>
+  // cancel button
+  function cbCancel () {
+    setCardMode(0);
+    setButtonMode(false);
+    setBlockChange(false);
+  }
 
-    let itemTable = this.state.items.map(item =>
-      <Item
-        key={item.id}
-        id={item.id}
-        name={item.name}
-        price={item.price}
-        urlItem={item.urlItem}
-        count={item.count}
+// при нажатии по кнопке delete
+  function deleteItem (id) {
+    const deletedItems = items.filter(v => v.id !== id);
+    setItems(deletedItems);
+    setSelectedItemId(0);
+    setCardMode(0);
+  }
 
-        selectedItems={item.id == this.state.selectedItemId}
-        cbSelect={this.selectItem}
-        cbDelete={this.deleteItem}
-        
-        cbEdit={this.changeItem}
-        buttonMode={this.state.buttonMode}
-        blockChange={this.state.blockChange}
 
-      />
-    );
 
+  function OnChange () {
+    setBlockChange(true);
+  }
+
+  function addItem () {
+    setCardMode(3);
+    setButtonMode(true);
+    setBlockChange(true);
+    setSelectedItemId(0);
+  }
+
+
+  let item = items.find((v => v.id === selectedItemId));
+  let newItem = { id: idNew, name: '', price: '', urlItem: '', count: '' };
+
+  if (!dataReady) 
+      return <div>Loading...</div>
+    
     return (
       <div>
-        <div className='IshopName'>{shopName}</div>
-        <table className='Ishop'>
-          <thead>{itemHead}</thead>
-          <tbody>{itemTable}</tbody>
+       <table className='Ishop'>
+          <caption>{props.shop}</caption>
+          <tbody>
+            <tr className='head'>
+              <th>Name</th>
+              <th>Price, byn</th>
+              <th>URL</th>
+              <th>Quantity</th>
+              <th>Control</th>
+            </tr>
+            {items.map(item =>
+              <Item
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                price={item.price}
+                urlItem={item.urlItem}
+                count={item.count}
+
+                selectedItems={item.id === selectedItemId}
+                cbSelect={selectItem}
+                cbDelete={deleteItem}
+                
+                cbEdit={changeItem}
+                buttonMode={buttonMode}
+                blockChange={blockChange}
+              />
+            )}
+          </tbody>
         </table>
-        {(this.state.cardMode === 0 || this.state.cardMode === 1) && <input type='button' value='New product' onClick={this.addItem}/>}
-        {this.state.cardMode === 1 && <ItemView item={item} />}
-        {this.state.cardMode === 2 && <ItemEdit
+        {(cardMode === 0 || cardMode === 1) && <input type='button' value='New product' onClick={addItem}/>}
+        {cardMode === 1 && <ItemView item={item} />}
+        {cardMode === 2 && <ItemEdit
           key={item.id}
-          cardMode={this.state.cardMode}
+          cardMode={cardMode}
           item={item}
           nameIsValid={true}
           priceIsValid={true}
           urlIsValid={true}
           countIsValid={true}
-          cbSaveChanges={this.cbSave}
-          cbCancelChanges={this.cbCancel}
-          cbOnChange={this.OnChange}
+          cbSaveChanges={cbSave}
+          cbCancelChanges={cbCancel}
+          cbOnChange={OnChange}
         />}
-        {this.state.cardMode === 3 && <ItemEdit
+        {cardMode === 3 && <ItemEdit
           key={newItem.id}
-          cardMode={this.state.cardMode}
+          cardMode={cardMode}
           item={newItem}
           nameIsValid={false}
           priceIsValid={false}
           urlIsValid={false}
           countIsValid={false}
-          cbSaveChanges={this.cbSave}
-          cbCancelChanges={this.cbCancel}
-          cbOnChange={this.OnChange}
+          cbSaveChanges={cbSave}
+          cbCancelChanges={cbCancel}
+          cbOnChange={OnChange}
         />}
       </div>
     )
-  }
 }
 
-
 export default Ishop;
-
-  
-    
-    
-    
-
-
-
-
-    
-  
