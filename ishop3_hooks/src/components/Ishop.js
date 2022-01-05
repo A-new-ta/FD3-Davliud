@@ -17,32 +17,34 @@ function Ishop (props) {
   const [dataReady, setDataReady] = useState(false);
     
   useEffect(() => {
-    
-    const url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
-    const name = 'DAVLIUD_ISHOP3_TEST';
-        const params = new URLSearchParams();
-        params.append('f', 'READ');
-        params.append('n', name);
+    const fetchData = async () => {
+      const url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+      const name = 'DAVLIUD_ISHOP3_TEST';
+         const params = new URLSearchParams();
+         params.append('f', 'READ');
+         params.append('n', name);
 
-        const options = {
-            method: 'POST',
-            body: params
-        }
-        fetch(url, options)
-            .then(response => response.json())
-            .then((result) => {
-              let itemArr = JSON.parse(result.result);
-              setItems((itemArr));
-              setDataReady(true);
-              return itemArr;
-            }) 
-            .then((itemArr) => {
-              setIdNew(itemArr.length+1);
-            })
-            .catch(error => console.log(error));
-        }, []);
-
+         const options = {
+             method: 'POST',
+             body: params
+         }
+      try {
+        let response = await fetch(url, options);
+        let data = await response.json();
+        let itemArr = JSON.parse(data.result);
+        setItems((itemArr));
+        setDataReady(true);
+        setIdNew(itemArr.length+1);
+      }
+      catch(error) {
+        console.log(error);
+      }
         
+    };
+    fetchData();
+}, []);
+  
+
   // edit button
   function changeItem (id) {
     setCardMode(2);
