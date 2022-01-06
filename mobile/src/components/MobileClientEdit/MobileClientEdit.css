@@ -1,0 +1,10 @@
+.MobileClientEdit {
+    margin-bottom: 5px;
+    display: flex;
+}
+.MobileClientEdit label {
+    width: 100px;
+}
+.MobileClientEditBlock {
+    margin-top: 50px;
+}

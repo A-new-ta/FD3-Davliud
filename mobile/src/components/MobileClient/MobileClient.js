@@ -5,7 +5,7 @@ import { MobileEvent } from '../Events/events';
 
 class MobileClient extends React.PureComponent {
 
-    editRow = () => MobileEvent.emit('edit', this.props.client); // this.props.client.id
+    editRow = () => MobileEvent.emit('edit', this.props.client.id); 
 
     deleteRow = () => MobileEvent.emit('delete', this.props.client.id);
 
