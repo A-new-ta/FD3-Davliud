@@ -10,36 +10,10 @@ class MobileClientEdit extends React.PureComponent {
         this.newMiddleNameRef = React.createRef();
         this.newBalanceRef = React.createRef();
     }
-    // static PropTypes = {
-    //     client: PropTypes.object.isRequired,
-    //     cardMode: PropTypes.number.isRequired,
-    // }
-
+    
     state = {
         client: this.props.client,
     }
-
-    // newLastNameRef = null;
-    // newFirstNameRef = null;
-    // newMiddleNameRef = null;
-    // newBalanceRef = null;
-    // // newStatusRef = null;
-
-    // setNewLastNameRef = (ref) => {
-    //     this.newLastNameRef = ref;
-    // };
-    // setNewFirstNameRef = (ref) => {
-    //     this.newFirstNameRef=ref;
-    // };
-    // setNewMiddleNameRef = (ref) => {
-    //     this.newMiddleNameRef=ref;
-    // };
-    // setNewBalanceRef = (ref) => {
-    //     this.newBalanceRef=ref;
-    // };
-    // setNewStatusRef = (ref) => {
-    //     this.newStatusRef=ref;
-    // };
 
     saveChanges = () => {
         let newLastName = this.newLastNameRef.current.value;
@@ -106,7 +80,3 @@ class MobileClientEdit extends React.PureComponent {
 }
 
 export default MobileClientEdit;
-
-
-
-            
