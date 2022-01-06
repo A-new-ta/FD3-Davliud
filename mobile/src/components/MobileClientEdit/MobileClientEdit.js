@@ -9,13 +9,44 @@ class MobileClientEdit extends React.PureComponent {
         cardMode: PropTypes.number.isRequired,
     }
 
-
-    saveChanges = () => {
-
+    state = {
+        client: this.props.client,
     }
 
-    cancelChanges = () => {
+    newLastNameRef = null;
+    newFirstNameRef = null;
+    newMiddleNameRef = null;
+    newBalanceRef = null;
+    // newStatusRef = null;
 
+    setNewLastNameRef = (ref) => {
+        this.newLastNameRef=ref;
+    };
+    setNewFirstNameRef = (ref) => {
+        this.newFirstNameRef=ref;
+    };
+    setNewMiddleNameRef = (ref) => {
+        this.newMiddleNameRef=ref;
+    };
+    setNewBalanceRef = (ref) => {
+        this.newBalanceRef=ref;
+    };
+    // setNewStatusRef = (ref) => {
+    //     this.newStatusRef=ref;
+    // };
+
+    saveChanges = () => {
+        if (this.newLastNameRef && this.newFirstNameRef && this.newMiddleNameRef && this.newBalanceRef && this.newStatusRef)
+        let newLastName = this.newLastNameRef.value;
+        let newFirstName = this.newFirstNameRef.value;
+        let newMiddleName = this.newMiddleNameRef.value;
+        let newBalance = +this.newBalanceRef.value;
+        let newClient = {id: this.props.client.id, lastName: newLastName, firstName: newFirstName, middleName: newMiddleName, balance: newBalance}
+        MobileEvent.emit('save', newClient);
+    };
+
+    cancelChanges = () => {
+        MobileEvent.emit('cancel');
     }
 
     render() {
