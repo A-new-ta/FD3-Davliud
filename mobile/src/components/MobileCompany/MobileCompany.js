@@ -59,6 +59,7 @@ class MobileCompany extends React.PureComponent {
         if (this.state.cardMode === 2) {
             let newClients = [...this.state.clients, newClient];
             this.setState({ clients: newClients, cardMode: 0 });
+            this.setState({ idNew: newClient.id + 1 });
         } else {
             let editClients = this.state.clients.map(client => (client.id === newClient.id) ? newClient : client);
             this.setState({ clients: editClients, cardMode: 0 });
