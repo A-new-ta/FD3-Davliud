@@ -5,18 +5,16 @@ class Scales {
     add (product:Product): void {
         this.productList.push(product);
     };
-
     getSumScale (): number {
         let result: number = 0;
-        this.productList.forEach(product => {
+        this.productList.forEach((product:Product) => {
             result += product.getScale();
         });
         return result;
     };
-
     getNameList (): Array<string> {
         let result:Array<string> = [];
-        this.productList.forEach(product => {
+        this.productList.forEach((product:Product) => {
             result.push(product.getName());
         });
         return result;
@@ -32,11 +30,9 @@ class Product {
         this.name = name;
         this.weight = weight;
     }
-    
     getName(): string {
         return this.name;
     };
-
     getScale(): number {
         return this.weight;
     };

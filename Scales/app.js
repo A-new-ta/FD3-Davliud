@@ -8,7 +8,7 @@ class Scales {
     ;
     getSumScale() {
         let result = 0;
-        this.productList.forEach(product => {
+        this.productList.forEach((product) => {
             result += product.getScale();
         });
         return result;
@@ -16,7 +16,7 @@ class Scales {
     ;
     getNameList() {
         let result = [];
-        this.productList.forEach(product => {
+        this.productList.forEach((product) => {
             result.push(product.getName());
         });
         return result;
