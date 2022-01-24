@@ -98,6 +98,7 @@ class ScalesStorageEngineLocalStorage implements IStorageEngine {
             storage = JSON.parse(localStorage.getItem(this.localStorageKey));
             return storage.length;
         }
+        return 0;
     }
 }
 

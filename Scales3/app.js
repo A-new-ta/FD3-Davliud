@@ -88,6 +88,7 @@ class ScalesStorageEngineLocalStorage {
             storage = JSON.parse(localStorage.getItem(this.localStorageKey));
             return storage.length;
         }
+        return 0;
     }
 }
 // хранение в массиве
